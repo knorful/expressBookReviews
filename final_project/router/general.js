@@ -3,6 +3,7 @@ let books = require("./booksdb.js");
 let isValid = require("./auth_users.js").isValid;
 let users = require("./auth_users.js").users;
 let doesExist = require("./auth_users.js").doesExist;
+let getAllBooksFromDB = require("./auth_users.js").getAllBooksFromDB;
 const public_users = express.Router();
 
 public_users.post("/register", (req, res) => {
@@ -25,13 +26,21 @@ public_users.post("/register", (req, res) => {
 
 // Get the book list available in the shop
 public_users.get("/", function (req, res) {
-  res.send(books);
+  getAllBooksFromDB()
+    .then((books) => {
+      res.send(books);
+    })
+    .catch((error) => res.status(500).send({ error: "Failed to fetch books" }));
 });
 
 // Get book details based on ISBN
 public_users.get("/isbn/:isbn", function (req, res) {
   let isbn = req.params.isbn;
-  res.send(books[isbn]);
+  getAllBooksFromDB()
+    .then((books) => {
+      res.send(books[isbn]);
+    })
+    .catch((error) => res.status(500).send({ error: "Failed to fetch books" }));
 });
 
 // Get book details based on author

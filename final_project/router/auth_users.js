@@ -10,6 +10,22 @@ const isValid = (username) => {
   //write code to check is the username is valid
 };
 
+const getAllBooksFromDB = () => {
+  return new Promise((resolve, reject) => {
+    setTimeout(() => {
+      resolve(books);
+    }, 1000);
+  });
+};
+
+const getBookDetailsByISBN = () => {
+  return new Promise((resolve, reject) => {
+    setTimeout(() => {
+      resolve;
+    });
+  });
+};
+
 const doesExist = (username) => {
   let foundUser = users.filter((user) => user.username === username);
   if (foundUser.length > 0) {
@@ -103,3 +119,4 @@ module.exports.authenticated = regd_users;
 module.exports.isValid = isValid;
 module.exports.users = users;
 module.exports.doesExist = doesExist;
+module.exports.getAllBooksFromDB = getAllBooksFromDB;
