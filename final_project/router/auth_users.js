@@ -18,14 +18,6 @@ const getAllBooksFromDB = () => {
   });
 };
 
-const getBookDetailsByISBN = () => {
-  return new Promise((resolve, reject) => {
-    setTimeout(() => {
-      resolve;
-    });
-  });
-};
-
 const doesExist = (username) => {
   let foundUser = users.filter((user) => user.username === username);
   if (foundUser.length > 0) {
