@@ -51,13 +51,21 @@ public_users.get("/isbn/:isbn", function (req, res) {
 public_users.get("/author/:author", function (req, res) {
   let author = req.params.author;
   let filtered_book;
-  for (let book in books) {
-    let booksObj = books[book];
-    if (booksObj.author === author) {
-      filtered_book = booksObj;
-    }
-  }
-  res.send(filtered_book);
+  getAllBooksFromDB()
+    .then((books) => {
+      for (let book in books) {
+        let booksObj = books[book];
+        if (booksObj.author === author) {
+          filtered_book = booksObj;
+        }
+      }
+      res.send(filtered_book);
+    })
+    .catch((error) =>
+      res
+        .status(500)
+        .send({ error: "Failed to fetch book details for this isbn" })
+    );
 });
 
 // Get all books based on title
@@ -66,7 +74,6 @@ public_users.get("/title/:title", function (req, res) {
   let filtered_book;
   getAllBooksFromDB()
     .then((books) => {
-      console.log(books);
       for (let book in books) {
         let booksObj = books[book];
         if (booksObj.title === title) {

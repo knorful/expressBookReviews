@@ -69,16 +69,16 @@ regd_users.post("/login", (req, res) => {
 
 // Add a book review
 regd_users.put("/auth/review/:isbn", (req, res) => {
-  let username = req.body.username;
-  let reviews = req.body.reviews;
+  let username = req.session.authorization.username;
   let isbn = req.params.isbn;
+  let review = req.query.review;
   let booksObj = books[isbn];
-
+  console.log("user: " + username);
   if (booksObj) {
     if (booksObj.reviews.username) {
-      booksObj.reviews[username] = reviews.review;
+      booksObj.reviews[username] = review;
     } else {
-      booksObj.reviews[username] = reviews;
+      booksObj.reviews[username] = review;
     }
     res
       .status(200)
@@ -93,6 +93,7 @@ regd_users.put("/auth/review/:isbn", (req, res) => {
 regd_users.delete("/auth/review/:isbn", (req, res) => {
   let isbn = req.params.isbn;
   let username = req.session.authorization.username;
+  console.log(username);
   let booksObj = books[isbn];
 
   if (!booksObj) {
