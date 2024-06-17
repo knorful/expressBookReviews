@@ -57,7 +57,6 @@ public_users.get("/author/:author", function (req, res) {
       for (let book in books) {
         let booksObj = books[book];
         if (booksObj.author === author) {
-          delete booksObj.author;
           let formattedObj = {
             isbn: book,
             title: booksObj.title,
@@ -86,7 +85,6 @@ public_users.get("/title/:title", function (req, res) {
       for (let book in books) {
         let booksObj = books[book];
         if (booksObj.title === title) {
-          delete booksObj.title;
           let formattedObj = {
             isbn: book,
             author: booksObj.author,
