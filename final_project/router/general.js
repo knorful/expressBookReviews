@@ -50,7 +50,6 @@ public_users.get("/isbn/:isbn", function (req, res) {
 // Get book details based on author
 public_users.get("/author/:author", function (req, res) {
   let author = req.params.author;
-  let filtered_book;
   let booksByAuthor = {};
   let bookArr = [];
   getAllBooksFromDB()
@@ -80,16 +79,24 @@ public_users.get("/author/:author", function (req, res) {
 // Get all books based on title
 public_users.get("/title/:title", function (req, res) {
   let title = req.params.title;
-  let filtered_book;
+  let booksByTitle = {};
+  let bookArr = [];
   getAllBooksFromDB()
     .then((books) => {
       for (let book in books) {
         let booksObj = books[book];
         if (booksObj.title === title) {
-          filtered_book = booksObj;
+          delete booksObj.title;
+          let formattedObj = {
+            isbn: book,
+            author: booksObj.author,
+            reviews: booksObj.reviews,
+          };
+          bookArr.push(formattedObj);
+          booksByTitle["booksbytitle"] = bookArr;
         }
       }
-      res.send(filtered_book);
+      res.send(booksByTitle);
     })
     .catch((error) =>
       res
