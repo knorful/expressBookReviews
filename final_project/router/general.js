@@ -51,15 +51,24 @@ public_users.get("/isbn/:isbn", function (req, res) {
 public_users.get("/author/:author", function (req, res) {
   let author = req.params.author;
   let filtered_book;
+  let booksByAuthor = {};
+  let bookArr = [];
   getAllBooksFromDB()
     .then((books) => {
       for (let book in books) {
         let booksObj = books[book];
         if (booksObj.author === author) {
-          filtered_book = booksObj;
+          delete booksObj.author;
+          let formattedObj = {
+            isbn: book,
+            title: booksObj.title,
+            reviews: booksObj.reviews,
+          };
+          bookArr.push(formattedObj);
+          booksByAuthor["booksbyauthor"] = bookArr;
         }
       }
-      res.send(filtered_book);
+      res.send(booksByAuthor);
     })
     .catch((error) =>
       res
